@@ -1,13 +1,11 @@
-package com.revature.Model;
+package com.revature.model;
 
 /*
     Model layer is responsible for hold stateful objects
     objects that have information that differs from another object from the same class
 */
 
-import java.util.ArrayList;
-
-public class Employee {
+public class User {
 
     //Uniquely identifiable field that is numeric
     private int empID;
@@ -16,22 +14,24 @@ public class Employee {
     private String empName;
     private String email;
     private String passwd;
+
+    private String role;
     //private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
     //What data structure allows us to add multiple things
     //???????????????????????????????equivalent in project???????????
 
-    public Employee(String empName, String email, String passwd, int empID) {
-        // this.abilities = new ArrayList<>(); //this must be tickets
+    public User(String empName, String email, String passwd, int empID, String role) {
         // the sql requires a join and where clause
         this.empID = empID;
         this.empName = empName;
         this.email = email;
         this.passwd = passwd;
+        this.role = role;
     }
 
     //right click, click source action, click generate getters and setters, select all fields, hit ok
-    public int getemployeeID() {
+    public int userID() {
         return empID;
     }
 
@@ -39,7 +39,7 @@ public class Employee {
         this.empID = employeeID;
     }
 
-    public String getEmpName() {
+    public String userName() {
         return empName;
     }
 
@@ -61,6 +61,14 @@ public class Employee {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getRole() { return role;
+    }
+
+    public void setRole(String role){ this.role=role;
+
+
     }
     //     public List<Ability> getAbilities() {
     //         return abilities;

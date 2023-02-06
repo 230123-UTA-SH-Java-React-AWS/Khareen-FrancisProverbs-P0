@@ -1,6 +1,6 @@
-package com.revature.Controller;
+package com.revature.controller;
 
-import com.revature.Service.TicketService;
+import com.revature.service.TicketService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 

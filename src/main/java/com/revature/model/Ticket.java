@@ -1,4 +1,4 @@
-package com.revature.Model;
+package com.revature.model;
 import com.revature.TicketStatus;
 
 import java.util.*;
@@ -6,21 +6,30 @@ import java.util.*;
 
 public class Ticket {
 
-    private int amount; //ticket amount
-    private String des; //ticket description
-   // private String status = "Pending"; //ticket default status
+    public int amount; //ticket amount
+    public String ticketDes; //ticket description
+    //private String status = "Pending"; //ticket default status
+    public int ticketID;
 
     TicketStatus defaultStatus = TicketStatus.PENDING;//enum used to set default ticket status
 
 
     //Constructor to initialize variables
-    public Ticket(int amount, String des){
+    public Ticket(int amount, String ticketDes, int ticketID){
         this.amount = amount;
-        this.des = des ;
+        this.ticketDes = ticketDes;
+        this.ticketID = ticketID;
+    }
+    public int getAmount(){
+        return amount;
     }
 
-    public Ticket() {
+    public int getTicketID() {
+        return ticketID;
+    }
 
+    public String getTicketDes(){
+        return ticketDes;
     }
 
     public void TicketPrompt(){
@@ -31,7 +40,7 @@ public class Ticket {
         System.out.println(prompt);
 
 
-        if(prompt == "YES"){
+        if(prompt.equals("YES")){
             System.out.println("Ticket submitted");
             System.out.println("Ticket status: "+ defaultStatus);
         } else{
@@ -41,4 +50,8 @@ public class Ticket {
 
     }
 
+    public String getStatus() {
+        return defaultStatus.name();
+
+    }
 }
