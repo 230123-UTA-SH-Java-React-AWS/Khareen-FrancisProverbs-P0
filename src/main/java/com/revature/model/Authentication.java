@@ -2,30 +2,30 @@ package com.revature.model;
 
 public class Authentication {
 
-    private String email;
-    private String pswd;
+    private String empemail;
+    private String emppswd;
 
-    public Authentication(String email, String pswd) {
-        this.email = email;
-        this.pswd = pswd;
+    public Authentication(String empemail, String emppswd) {
+        this.empemail = empemail;
+        this.emppswd = emppswd;
     }
 
     public Authentication() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmpemail() {
+        return empemail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmpemail(String empemail) {
+        this.empemail = empemail;
     }
 
-    public String getPswd() {
-        return pswd;
+    public String getEmppswd() {
+        return emppswd;
     }
 
-    public void setPswd(String pswd) {
-        this.pswd = pswd;
+    public void setEmppswd(String emppswd) {
+        this.emppswd = emppswd;
     }
 }

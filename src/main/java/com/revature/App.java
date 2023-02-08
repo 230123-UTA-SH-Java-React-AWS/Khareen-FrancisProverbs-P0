@@ -23,11 +23,15 @@ public final class App {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 
-        server.createContext("/authentication", new AuthController());
+        server.createContext("/register", new AuthController());
         server.createContext("/login", new AuthController());
         server.createContext("/createTicket", new TicketController());
         server.createContext("/viewTickets", new TicketController());
         server.createContext("/updateTicket", new TicketController());
+        server.createContext("/viewPendingTickets", new TicketController());
+        server.createContext("/viewPreviousTickets", new TicketController());
+
+
 
 
         server.setExecutor(null);

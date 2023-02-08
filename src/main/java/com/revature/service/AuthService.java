@@ -49,26 +49,15 @@ public class AuthService {
     //Converting List into 
     public String getAllUsers()
     {
-
         AuthRepository repo = new AuthRepository();
         List<User> listOfUsers = repo.getAllUsers();
         ObjectMapper mapper = new ObjectMapper();
-
-//        User newUser = mapper.readValue(userJson, User.class);
-//
-//
-//        Product product = objectMapper.readValue(json, Product.class);
-//
-//        assertThat(product.getName()).isEqualTo("Pear yPhone 72");
-//        assertThat(product.getDetails().get("audioConnector")).isEqualTo("none");
-
-
 
         ObjectMapper map = new ObjectMapper();
         String jsonString = "";
 
         try {
-            jsonString = map.writeValueAsString(listOfUsers);
+            jsonString = map.writeValueAsString(listOfUsers);//store list of users to json string
 
         } catch (JsonGenerationException e) {
             // TODO Auto-generated catch block
@@ -80,7 +69,6 @@ public class AuthService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         return jsonString;
     }
 

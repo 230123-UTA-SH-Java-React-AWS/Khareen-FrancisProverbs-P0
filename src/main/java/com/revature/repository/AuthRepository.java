@@ -16,8 +16,6 @@ public class AuthRepository {
         //this query will call DB to get all contents of users table and store in a list
         String sql = "select * from users";
         List<User> listOfUsers = new ArrayList<User>();
-
-
         try (Connection con = ConnectionUtil.getConnection()) {
 
             Statement stmt = con.createStatement();
@@ -26,7 +24,7 @@ public class AuthRepository {
 
             //Mapping information from a table to a DS instead
             while (rs.next()) {
-                User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 listOfUsers.add(newUser);
             }
             // User listOf = listOfUsers.get(0);
@@ -41,8 +39,6 @@ public class AuthRepository {
     }
 
     public void createUser(User user) {
-
-
         //NEW WAY TO SAVE TO DATABASE INSTEAD
         String sql = "insert into users(empname,empemail,emppswd,emprole) values (?, ?, ?, ?)";
         //JDBC API
@@ -52,10 +48,10 @@ public class AuthRepository {
 
             //We are replacing the '?' into actual values from the pokemon we received
             //Sadly, it uses one-based indexing so 1 is the very first parameter
-            prstmt.setString(1, user.getEmpName());
-            prstmt.setString(2, user.getEmpEmail());
-            prstmt.setString(3, user.getEmpPswd());
-            prstmt.setString(4, user.getEmpRole());
+            prstmt.setString(1, user.getEmpname());
+            prstmt.setString(2, user.getEmpemail());
+            prstmt.setString(3, user.getEmppswd());
+            prstmt.setString(4, user.getEmprole());
             //prstmt.setInt(5, pokemon.getSpeed());
 
             //execute() method does not expect to return anything from the statement
@@ -72,8 +68,8 @@ public class AuthRepository {
 
     public String loginUser(Authentication loginUser) {
         var message = "user found";
-        var email = loginUser.getEmail();
-        var pswd = loginUser.getPswd();
+        var email = loginUser.getEmpemail();
+        var pswd = loginUser.getEmppswd();
         String sql = "SELECT * FROM users";
 
         try (Connection con = ConnectionUtil.getConnection()) {
@@ -81,24 +77,29 @@ public class AuthRepository {
 
             ResultSet rs = stmt.executeQuery(sql);
 
+            boolean userFound = false;
+
             //Mapping information from a table to a DS instead
             while (rs.next()) {
-                User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+               // User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
 
-                String empName = rs.getString("empname");
-                String empEmail = rs.getString("empemail");
-                String empPswd = rs.getString("emppswd");
-                String empRole = rs.getString("emprole");
-                int empID = rs.getInt("empid");
+                String empName = rs.getString(1);
+                String empEmail = rs.getString(2);
+                String empPswd = rs.getString(3);
+                String empRole = rs.getString(4);
+               // int empID = rs.getInt(5);
 
                 if(empEmail.matches(email) && empPswd.matches(pswd)){
-                    System.out.println(message);
-                }else{
-                    System.out.println("This is not a valid user");
+                    userFound = true;
                 }
-
-                System.out.println(empEmail + "     " + empPswd);
+               // System.out.println(empEmail + "     " + empPswd);
             }
+            if(userFound){
+                System.out.println(message);
+            }else{
+                System.out.println("This is not a valid user");
+            }
+
         } catch (Exception e) {
             //TODO: handle exception
             e.printStackTrace();

@@ -7,10 +7,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.net.URI;
+import java.net.http.HttpHeaders;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import com.revature.service.AuthService;
 import com.revature.service.TicketService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -21,7 +21,7 @@ public class TicketController implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         // TODO Auto-generated method stub
         String verb = exchange.getRequestMethod();
-        //URI uri = exchange.getRequestURI();
+        URI uri = exchange.getRequestURI();
 
         //PUT - 3, updating
         //POST - infinite, create a new resource
@@ -32,10 +32,23 @@ public class TicketController implements HttpHandler {
         //use a nested switch statement that directs to a specific http verb
         switch (verb) {
             case "GET":
-                getRequest(exchange);
+                switch (uri.getPath()){
+                    case "/viewPendingTickets":
+                        viwPendigTickets(exchange);
+                        break;
+                    case "/viewTickets":
+                        viewAllTickets(exchange);
+                        break;
+                }
                 break;
             case "POST":
-                createTicket(exchange);
+                switch (uri.getPath()){
+                    case "/createTicket" :
+                        createTicket(exchange);
+                        break;
+                    case "/viewPreviousTickets":
+                        viewPreviousTickets(exchange);
+                }
                 break;
             case "PUT":
                 updateTicketStatus(exchange);
@@ -43,15 +56,12 @@ public class TicketController implements HttpHandler {
             default:
                 break;
         }
-
         System.out.println();
     }
 
-    private void updateTicketStatus(HttpExchange exchange) throws IOException {
-        TicketService serv = new TicketService();
-
+    private void viewPreviousTickets(HttpExchange exchange) throws IOException {
+        //create new object and call method get alltickets to retrieve from DB
         InputStream is = exchange.getRequestBody();
-
         //We need to convert the InputStream into String
         //StringBuilder is like a mutable version of a String
         StringBuilder textBuilder = new StringBuilder();
@@ -60,7 +70,6 @@ public class TicketController implements HttpHandler {
         //try_resource block will automatically close the resource within the parenthesis
         try (Reader reader = new BufferedReader(new InputStreamReader(is, Charset.forName(StandardCharsets.UTF_8.name())))) {
             int c = 0;
-
             //read() method from BufferReader will give a -1 once there is no more letters left
             //TLDR keep reading each letter until there is no more left
             while ((c = reader.read()) != -1) {
@@ -69,6 +78,36 @@ public class TicketController implements HttpHandler {
             }
         }
 
+        //call on the service layer and execute the method
+        TicketService ticketService = new TicketService();
+        String jsonCurrentList = ticketService.getPreviousTickets(textBuilder.toString());
+
+        exchange.sendResponseHeaders(200, jsonCurrentList.getBytes().length);
+
+
+        OutputStream os = exchange.getResponseBody();
+        os.write(jsonCurrentList.getBytes());
+        os.close();
+    }
+
+
+    private void updateTicketStatus(HttpExchange exchange) throws IOException {
+        InputStream is = exchange.getRequestBody();
+        //We need to convert the InputStream into String
+        //StringBuilder is like a mutable version of a String
+        StringBuilder textBuilder = new StringBuilder();
+        //Converts our binary into letters
+
+        //try_resource block will automatically close the resource within the parenthesis
+        try (Reader reader = new BufferedReader(new InputStreamReader(is, Charset.forName(StandardCharsets.UTF_8.name())))) {
+            int c = 0;
+            //read() method from BufferReader will give a -1 once there is no more letters left
+            //TLDR keep reading each letter until there is no more left
+            while ((c = reader.read()) != -1) {
+                //Adds the letter to your text
+                textBuilder.append((char) c);
+            }
+        }
         exchange.sendResponseHeaders(200, textBuilder.toString().getBytes().length);
         //call on the service layer and execute the method
         TicketService ticketService = new TicketService();
@@ -77,14 +116,24 @@ public class TicketController implements HttpHandler {
         OutputStream os = exchange.getResponseBody();
         os.write(textBuilder.toString().getBytes());
         os.close();
-
-
     }
 
-    private void getRequest(HttpExchange exchange) throws IOException {
+    private void viewAllTickets(HttpExchange exchange) throws IOException {
         //create new object and call method get allusers to retrieve from DB
         TicketService serv = new TicketService();
         String jsonCurrentList = serv.getAllTickets();
+
+        exchange.sendResponseHeaders(200, jsonCurrentList.getBytes().length);
+
+        OutputStream os = exchange.getResponseBody();
+        os.write(jsonCurrentList.getBytes());
+        os.close();
+    }
+
+    private void viwPendigTickets(HttpExchange exchange)throws IOException {
+        //create new object and call method get allusers to retrieve from DB
+        TicketService serv = new TicketService();
+        String jsonCurrentList = serv.viewPendingTickets();
 
         exchange.sendResponseHeaders(200, jsonCurrentList.getBytes().length);
 

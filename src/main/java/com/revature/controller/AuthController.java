@@ -36,7 +36,7 @@ public class AuthController implements HttpHandler {
                 break;
             case "POST":
                 switch (uri.getPath()){
-                    case "/authentication":
+                    case "/register":
                         registerUser(exchange);
                         break;
                     case "/login":
@@ -58,7 +58,7 @@ public class AuthController implements HttpHandler {
         exchange.sendResponseHeaders(200, jsonCurrentList.getBytes().length);
 
         OutputStream os = exchange.getResponseBody();
-        os.write(jsonCurrentList.getBytes());
+        os.write(jsonCurrentList.getBytes());//sends back response string
         os.close();
     }
 
@@ -95,7 +95,7 @@ public class AuthController implements HttpHandler {
         authService.createUser(textBuilder.toString());
 
         OutputStream os = exchange.getResponseBody();
-        os.write(textBuilder.toString().getBytes());
+        os.write(textBuilder.toString().getBytes());//write back response
         os.close();
     }
 

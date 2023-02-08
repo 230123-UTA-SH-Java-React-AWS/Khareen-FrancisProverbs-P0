@@ -1,23 +1,35 @@
 package com.revature.model;
-import com.revature.TicketStatus;
-
-import java.util.*;
 
 
 public class Ticket {
-    public int ticketID;
+    public long ticketid;
 
-    public int ticketAmt; //ticket amount
-    public String ticketDes; //ticket description
+    public int ticketamt; //ticket amount
+    public String ticketdes; //ticket description
 
-    public String ticketStatus;
+    public String ticketstatus = "PENDING";
 
-    public Ticket(int ticketID, int ticketAmt, String ticketDes, String ticketStatus) {
-        this.ticketID = ticketID;
-        this.ticketAmt = ticketAmt;
-        this.ticketDes = ticketDes;
-        this.ticketStatus = "PENDING";
+    public long getOwnerid() {
+        return ownerid;
     }
+
+    public void setOwnerid(long ownerid) {
+        this.ownerid = ownerid;
+    }
+
+    public long ownerid;
+
+    public Ticket(long ticketid, int ticketamt, String ticketdes) {
+        this.ticketid = ticketid;
+        this.ticketamt = ticketamt;
+        this.ticketdes = ticketdes;
+    }
+    public Ticket( int ticketamt, String ticketdes, long ownerid) {
+        this.ticketamt = ticketamt;
+        this.ticketdes = ticketdes;
+        this.ownerid = ownerid;
+    }
+
 
     public Ticket() {
     }
@@ -25,39 +37,39 @@ public class Ticket {
 
 
     public String getStatus() {
-        return ticketStatus;
+        return ticketstatus;
 
     }
-    public void setTicketStatus(String ticketStatus){
-        this.ticketStatus = ticketStatus;
+    public void setTicketstatus(String ticketstatus){
+        this.ticketstatus = ticketstatus;
     }
 
-    public int getTicketID() {
-        return ticketID;
+    public long getTicketid() {
+        return ticketid;
     }
 
-    public void setTicketID(int ticketID) {
-        this.ticketID = ticketID;
+    public void setTicketid(int ticketid) {
+        this.ticketid = ticketid;
     }
 
-    public int getTicketAmt() {
-        return ticketAmt;
+    public int getTicketamt() {
+        return ticketamt;
     }
 
-    public void setTicketAmt(int ticketAmt) {
-        this.ticketAmt = ticketAmt;
+    public void setTicketamt(int ticketamt) {
+        this.ticketamt = ticketamt;
     }
 
-    public String getTicketDes() {
-        return ticketDes;
+    public String getTicketdes() {
+        return ticketdes;
     }
 
-    public void setTicketDes(String ticketDes) {
-        this.ticketDes = ticketDes;
+    public void setTicketdes(String ticketdes) {
+        this.ticketdes = ticketdes;
     }
 
     public String getDefaultStatus() {
-        return ticketStatus;
+        return ticketstatus;
     }
 
 

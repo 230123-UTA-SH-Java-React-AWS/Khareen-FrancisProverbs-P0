@@ -2,20 +2,19 @@ package com.revature.service;
 
 import java.io.IOException;
 
-import com.revature.model.Authentication;
+import com.revature.GetPreviousTicketsRequest;
 import com.revature.model.Ticket;
-import com.revature.model.User;
 import com.revature.repository.TicketRepository;
 
 import java.sql.SQLException;
 import java.util.List;
 
 
+import com.revature.utils.UpdateTicketRequest;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.util.ISO8601Utils;
 
 /*
     The service layer is responsible for hold behavior driven classes
@@ -34,7 +33,7 @@ public class TicketService {
 
         try {
             Ticket newTicket = mapper.readValue(userJson, Ticket.class);
-            newTicket.setTicketStatus("PENDING");//sets default status to pending
+            newTicket.setTicketstatus("PENDING");//sets default status to pending
             repo.createTicket(newTicket);
 
         } catch (JsonParseException e) {
@@ -49,15 +48,12 @@ public class TicketService {
         }
     }
 
-    public void updateTicket(String userJson){
+    public void updateTicket(String ticketJson){
         TicketRepository repo = new TicketRepository();
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(userJson);
-        System.out.println();
 
         try {
-            Ticket newTicket = mapper.readValue(userJson, Ticket.class);
-            newTicket.setTicketStatus(newTicket.getStatus());//gets status from manager and updates
+            UpdateTicketRequest newTicket = mapper.readValue(ticketJson, UpdateTicketRequest.class);
             repo.updateTicket(newTicket);
 
         } catch (JsonParseException e) {
@@ -73,6 +69,32 @@ public class TicketService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public String getPreviousTickets(String ticketJson) {
+        TicketRepository repo = new TicketRepository();
+        List<Ticket> listOfTickets = repo.getTickets();
+
+        ObjectMapper map = new ObjectMapper();
+        String jsonString = "Could not write JSON to String";
+        try {
+            GetPreviousTicketsRequest ticketRequest = map.readValue(ticketJson, GetPreviousTicketsRequest.class);
+            listOfTickets= repo.viewPreviousTickets(ticketRequest);
+            jsonString = map.writeValueAsString(listOfTickets);
+
+        } catch (JsonParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonString;
     }
 
     //Converting List into 
@@ -101,7 +123,7 @@ public class TicketService {
 
     public String viewPendingTickets(){
         TicketRepository repo = new TicketRepository();
-        List<Ticket> listOfTickets = repo.getTickets();
+        List<Ticket> listOfTickets = repo.viewPendingTickets();
 
         ObjectMapper map = new ObjectMapper();
         String jsonString = "";
@@ -120,7 +142,6 @@ public class TicketService {
         }
         return jsonString;
     }
-
 
 
 }

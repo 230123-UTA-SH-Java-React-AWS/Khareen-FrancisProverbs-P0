@@ -6,59 +6,59 @@ package com.revature.model;
 */
 
 public class User {
-    private String empName;
-    private String empEmail;
-    private String empPswd;
+    private String empname;
+    private String empemail;
+    private String emppswd;
 
-    private String empRole;
-    private int empID;
+    private String emprole = "Employee";
+
+    private long empid;
 
     public User(){
 
     }
 
-    public User(String empName, String empEmail, String empPswd, String empRole, int empID) {
-        this.empName = empName;
-        this.empEmail = empEmail;
-        this.empPswd = empPswd;
-        this.empRole = empRole;
-        this.empID = empID;
+    public User(String empname, String empemail, String emppswd, int empid) {
+        this.empname = empname;
+        this.empemail = empemail;
+        this.emppswd = emppswd;
+        this.empid = empid;
     }
 
-    public String getEmpName() {
-        return empName;
+    public String getEmpname() {
+        return empname;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setEmpname(String empname) {
+        this.empname = empname;
     }
 
-    public String getEmpEmail() {
-        return empEmail;
+    public String getEmpemail() {
+        return empemail;
     }
 
-    public void setEmpEmail(String empEmail) {
-        this.empEmail = empEmail;
+    public void setEmpemail(String empemail) {
+        this.empemail = empemail;
     }
 
-    public String getEmpPswd() {
-        return empPswd;
+    public String getEmppswd() {
+        return emppswd;
     }
 
-    public void setEmpPswd(String empPswd) {
-        this.empPswd = empPswd;
+    public void setEmppswd(String emppswd) {
+        this.emppswd = emppswd;
     }
 
-    public String getEmpRole() {
-        return empRole;
+    public String getEmprole() {
+        return emprole;
     }
 
-    public void setEmpRole(String empRole) {
-        this.empRole = empRole;
+    public void setEmprole(String emprole) {
+        this.emprole = emprole;
     }
 
-    public int getEmpID() {
-        return empID;
+    public long getEmpid() {
+        return empid;
     }
 
 }
