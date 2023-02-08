@@ -12,8 +12,6 @@ public class Ticket {
     public int ticketID;
 
     TicketStatus defaultStatus = TicketStatus.PENDING;//enum used to set default ticket status
-
-
     //Constructor to initialize variables
     public Ticket(int amount, String ticketDes, int ticketID){
         this.amount = amount;

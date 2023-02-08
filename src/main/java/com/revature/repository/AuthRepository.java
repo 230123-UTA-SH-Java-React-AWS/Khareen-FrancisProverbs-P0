@@ -1,5 +1,6 @@
 package com.revature.repository;
 
+import com.revature.model.Authentication;
 import com.revature.model.User;
 import com.revature.utils.ConnectionUtil;
 
@@ -11,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthRepository {
-    public User getUser(String email, String pass){
-        //this query will call DB to get email and password for auth
-        String sql = "select * from user where email ="+email+", pass ="+pass;
-        List<User> listOfTickets = new ArrayList<User>();
+    public List<User> getAllUsers() {
+        //this query will call DB to get all contents of users table and store in a list
+        String sql = "select * from users";
+        List<User> listOfUsers = new ArrayList<User>();
 
 
         try (Connection con = ConnectionUtil.getConnection()) {
@@ -25,14 +26,11 @@ public class AuthRepository {
 
             //Mapping information from a table to a DS instead
             while (rs.next()) {
-                User newUser = new User(rs.getString(1),rs.getString(3),rs.getString(4),rs.getInt(2),rs.getString(5));
-
-
-                listOfTickets.add(newUser);
+                User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                listOfUsers.add(newUser);
             }
-            //
-            User currentUser = listOfTickets.get(0);
-            return currentUser;
+            // User listOf = listOfUsers.get(0);
+            return listOfUsers;
 
         } catch (Exception e) {
             //TODO: handle exception
@@ -41,37 +39,74 @@ public class AuthRepository {
         return null;
 
     }
-    public User createUser(String email, String pass, String name, int id,String role){
 
-        //this query will create a new user and save to DB
-        String sql = "insert into user(email,pass,username,userid,role) values (?, ?, ?, ?)"; //add role
+    public void createUser(User user) {
+
+
+        //NEW WAY TO SAVE TO DATABASE INSTEAD
+        String sql = "insert into users(empname,empemail,emppswd,emprole) values (?, ?, ?, ?)";
         //JDBC API
         try (Connection con = ConnectionUtil.getConnection()) {
 
             PreparedStatement prstmt = con.prepareStatement(sql);
-            System.out.println(con);
 
-            //We are replacing the '?' into actual values from the user we received
-            //it uses one-based indexing so 1 is the very first parameter
-            prstmt.setString(1, email);
-            prstmt.setString(2, pass);
-            prstmt.setString(3, name);
-            prstmt.setInt(4, id);
-            prstmt.setString(5, role);
+            //We are replacing the '?' into actual values from the pokemon we received
+            //Sadly, it uses one-based indexing so 1 is the very first parameter
+            prstmt.setString(1, user.getEmpName());
+            prstmt.setString(2, user.getEmpEmail());
+            prstmt.setString(3, user.getEmpPswd());
+            prstmt.setString(4, user.getEmpRole());
+            //prstmt.setInt(5, pokemon.getSpeed());
 
             //execute() method does not expect to return anything from the statement
             //executeQuery() method does expect something to result after executing the statement
             prstmt.execute();
 
-            return new User(name,email,pass,id,role);
-
 
         } catch (Exception e) {
             //TODO: handle exception
             e.printStackTrace();
         }
 
+    }
 
-        return null;
+    public String loginUser(Authentication loginUser) {
+        var message = "user found";
+        var email = loginUser.getEmail();
+        var pswd = loginUser.getPswd();
+        String sql = "SELECT * FROM users";
+
+        try (Connection con = ConnectionUtil.getConnection()) {
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Mapping information from a table to a DS instead
+            while (rs.next()) {
+                User newUser = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+
+                String empName = rs.getString("empname");
+                String empEmail = rs.getString("empemail");
+                String empPswd = rs.getString("emppswd");
+                String empRole = rs.getString("emprole");
+                int empID = rs.getInt("empid");
+
+                if(empEmail.matches(email) && empPswd.matches(pswd)){
+                    System.out.println(message);
+                }else{
+                    System.out.println("This is not a valid user");
+                }
+
+                System.out.println(empEmail + "     " + empPswd);
+            }
+        } catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
+        }
+        return email;
     }
 }
+
+
+
+

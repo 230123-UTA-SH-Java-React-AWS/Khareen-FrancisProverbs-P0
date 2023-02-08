@@ -6,40 +6,26 @@ package com.revature.model;
 */
 
 public class User {
+    private String empName;
+    private String empEmail;
+    private String empPswd;
 
-    //Uniquely identifiable field that is numeric
+    private String empRole;
     private int empID;
 
-    //Fields that will be useful to uniquely identify this object
-    private String empName;
-    private String email;
-    private String passwd;
+    public User(){
 
-    private String role;
-    //private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+    }
 
-    //What data structure allows us to add multiple things
-    //???????????????????????????????equivalent in project???????????
-
-    public User(String empName, String email, String passwd, int empID, String role) {
-        // the sql requires a join and where clause
-        this.empID = empID;
+    public User(String empName, String empEmail, String empPswd, String empRole, int empID) {
         this.empName = empName;
-        this.email = email;
-        this.passwd = passwd;
-        this.role = role;
+        this.empEmail = empEmail;
+        this.empPswd = empPswd;
+        this.empRole = empRole;
+        this.empID = empID;
     }
 
-    //right click, click source action, click generate getters and setters, select all fields, hit ok
-    public int userID() {
-        return empID;
-    }
-
-    public void setemployeeID(int employeeID) {
-        this.empID = employeeID;
-    }
-
-    public String userName() {
+    public String getEmpName() {
         return empName;
     }
 
@@ -47,34 +33,32 @@ public class User {
         this.empName = empName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmpEmail() {
+        return empEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmpEmail(String empEmail) {
+        this.empEmail = empEmail;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getEmpPswd() {
+        return empPswd;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setEmpPswd(String empPswd) {
+        this.empPswd = empPswd;
     }
 
-    public String getRole() { return role;
+    public String getEmpRole() {
+        return empRole;
     }
 
-    public void setRole(String role){ this.role=role;
-
-
+    public void setEmpRole(String empRole) {
+        this.empRole = empRole;
     }
-    //     public List<Ability> getAbilities() {
-    //         return abilities;
-    //     }
 
-    //     public void setAbilities(List<Ability> abilities) {
-    //         this.abilities = abilities;
-    //     }
+    public int getEmpID() {
+        return empID;
+    }
+
 }
