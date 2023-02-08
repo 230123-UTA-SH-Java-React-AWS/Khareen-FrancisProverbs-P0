@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -19,23 +20,33 @@ public class AuthController implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         // TODO Auto-generated method stub
         String verb = exchange.getRequestMethod();
+        URI uri = exchange.getRequestURI();
+
 
         //PUT - 3, updating 
         //POST - infinite, create a new resource
+        //URI uri = exchange.getRequestURI();
+        //Parse it
+        // "pokemon/login" => "login => http verb" && /pokemon/login/trainer => "login => trainer => each http verb"
+        //Use switch statement to direct to specific private methods
+        //use a nested switch statement that directs to a specific http verb
         switch (verb) {
             case "GET":
                 getRequest(exchange);
                 break;
             case "POST":
-                registerUser(exchange);
-                //authenticateUser(exchange);
+                switch (uri.getPath()){
+                    case "/authentication":
+                        registerUser(exchange);
+                        break;
+                    case "/login":
+                        authenticateUser(exchange);
+                        break;
+                }
                 break;
-
-
             default:
                 break;
         }
-
         System.out.println();
     }
 

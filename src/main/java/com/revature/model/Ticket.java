@@ -5,51 +5,60 @@ import java.util.*;
 
 
 public class Ticket {
-
-    public int amount; //ticket amount
-    public String ticketDes; //ticket description
-    //private String status = "Pending"; //ticket default status
     public int ticketID;
 
-    TicketStatus defaultStatus = TicketStatus.PENDING;//enum used to set default ticket status
-    //Constructor to initialize variables
-    public Ticket(int amount, String ticketDes, int ticketID){
-        this.amount = amount;
-        this.ticketDes = ticketDes;
+    public int ticketAmt; //ticket amount
+    public String ticketDes; //ticket description
+
+    public String ticketStatus;
+
+    public Ticket(int ticketID, int ticketAmt, String ticketDes, String ticketStatus) {
         this.ticketID = ticketID;
+        this.ticketAmt = ticketAmt;
+        this.ticketDes = ticketDes;
+        this.ticketStatus = "PENDING";
     }
-    public int getAmount(){
-        return amount;
+
+    public Ticket() {
+    }
+    //Constructor to initialize variables
+
+
+    public String getStatus() {
+        return ticketStatus;
+
+    }
+    public void setTicketStatus(String ticketStatus){
+        this.ticketStatus = ticketStatus;
     }
 
     public int getTicketID() {
         return ticketID;
     }
 
-    public String getTicketDes(){
+    public void setTicketID(int ticketID) {
+        this.ticketID = ticketID;
+    }
+
+    public int getTicketAmt() {
+        return ticketAmt;
+    }
+
+    public void setTicketAmt(int ticketAmt) {
+        this.ticketAmt = ticketAmt;
+    }
+
+    public String getTicketDes() {
         return ticketDes;
     }
 
-    public void TicketPrompt(){
-
-        System.out.println("Would you like to submit a ticket? Please enter yes or no");
-        Scanner stringScanner = new Scanner(System.in); //Scanner keyword creates an instance of scanner class to accept input
-        String prompt = stringScanner.next().toUpperCase(Locale.ROOT);
-        System.out.println(prompt);
-
-
-        if(prompt.equals("YES")){
-            System.out.println("Ticket submitted");
-            System.out.println("Ticket status: "+ defaultStatus);
-        } else{
-            //TODO
-            //end program
-        }
-
+    public void setTicketDes(String ticketDes) {
+        this.ticketDes = ticketDes;
     }
 
-    public String getStatus() {
-        return defaultStatus.name();
-
+    public String getDefaultStatus() {
+        return ticketStatus;
     }
+
+
 }

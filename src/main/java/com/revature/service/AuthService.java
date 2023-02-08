@@ -49,11 +49,22 @@ public class AuthService {
     //Converting List into 
     public String getAllUsers()
     {
+
         AuthRepository repo = new AuthRepository();
         List<User> listOfUsers = repo.getAllUsers();
+        ObjectMapper mapper = new ObjectMapper();
+
+//        User newUser = mapper.readValue(userJson, User.class);
+//
+//
+//        Product product = objectMapper.readValue(json, Product.class);
+//
+//        assertThat(product.getName()).isEqualTo("Pear yPhone 72");
+//        assertThat(product.getDetails().get("audioConnector")).isEqualTo("none");
+
+
 
         ObjectMapper map = new ObjectMapper();
-
         String jsonString = "";
 
         try {
